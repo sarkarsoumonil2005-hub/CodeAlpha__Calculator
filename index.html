@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A gorgeous frosted glassmorphic calculator with multi-line formula display and fluid animations." />
+  <title>Calculator</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-container">
+    <!-- Floating Frosted Glass Calculator Card -->
+    <div class="glass-calculator" role="region" aria-label="Glassmorphism Calculator">
+      
+      <!-- Top Subtle Control Bar -->
+      <header class="glass-header">
+        <button id="btn-sci-toggle" class="header-indicator-btn" title="Toggle Scientific Keypad (S)" aria-label="Toggle Scientific Keypad" aria-expanded="false">
+          <span class="header-indicator"></span>
+        </button>
+        <div class="glass-actions">
+          <button id="btn-history-toggle" class="glass-icon-btn" title="History (H)" aria-label="Toggle calculation history">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+              <path d="M12 7v5l4 2"/>
+            </svg>
+          </button>
+          <button id="btn-theme-toggle" class="glass-icon-btn" title="Toggle Light/Dark Glass (T)" aria-label="Toggle Theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Multi-Line Floating Display Section -->
+      <section class="glass-display" aria-live="polite">
+        <!-- Line 1: Primary Full Expression / Formula -->
+        <div class="display-row formula-row">
+          <span class="formula-text" id="formula-text"></span>
+        </div>
+
+        <!-- Line 2: Active Sub-Expression / Step -->
+        <div class="display-row sub-row">
+          <span class="sub-text" id="sub-text"></span>
+        </div>
+
+        <!-- Line 3: Main Evaluated Result -->
+        <div class="display-row result-row">
+          <span class="main-result" id="main-result">0</span>
+        </div>
+      </section>
+
+      <!-- Scientific Keypad Accordion (Matches Image 2: 12 buttons) -->
+      <section class="glass-scientific-keypad" id="scientific-keypad" aria-label="Scientific Keypad" aria-hidden="true">
+        <!-- Row 1: √ | π | ^ | ! -->
+        <button id="btn-sqrt" class="btn btn-sci" data-sci="sqrt" title="Square Root (√)">√</button>
+        <button id="btn-pi" class="btn btn-sci" data-sci="pi" title="Pi (π)">π</button>
+        <button id="btn-power" class="btn btn-sci" data-sci="power" title="Power (^)">^</button>
+        <button id="btn-percent" class="btn btn-sci" data-sci="percent" title="Percentage (%)">%</button>
+
+        <!-- Row 2: Deg/Rad | sin | cos | tan -->
+        <button id="btn-angle-mode" class="btn btn-sci btn-mode-toggle" data-sci="angle-mode" title="Toggle Degrees / Radians">Deg</button>
+        <button id="btn-sin" class="btn btn-sci" data-sci="sin" title="Sine">sin</button>
+        <button id="btn-cos" class="btn btn-sci" data-sci="cos" title="Cosine">cos</button>
+        <button id="btn-tan" class="btn btn-sci" data-sci="tan" title="Tangent">tan</button>
+
+        <!-- Row 3: Inv | e | ln | log -->
+        <button id="btn-inv" class="btn btn-sci btn-inv-toggle" data-sci="inv" title="Inverse Functions (Inv)">Inv</button>
+        <button id="btn-e" class="btn btn-sci" data-sci="e" title="Euler's Number (e)">e</button>
+        <button id="btn-ln" class="btn btn-sci" data-sci="ln" title="Natural Logarithm (ln)">ln</button>
+        <button id="btn-log" class="btn btn-sci" data-sci="log" title="Logarithm base 10 (log)">log</button>
+      </section>
+
+      <!-- Keypad Grid (Matches Image Layout Exactly) -->
+      <section class="glass-keypad" role="grid" aria-label="Calculator keypad">
+        <!-- Row 1: C | ( ) | ⌫ | x -->
+        <button id="btn-clear" class="btn btn-control" data-action="clear" data-key="Escape" aria-label="Clear All">C</button>
+        <button id="btn-parenthesis" class="btn btn-op" data-action="parenthesis" data-key="(" title="Parentheses ( )" aria-label="Parentheses ( )">( )</button>
+        <button id="btn-backspace" class="btn btn-control" data-action="delete" data-key="Backspace" aria-label="Backspace">
+          <svg class="icon-backspace" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
+            <line x1="18" y1="9" x2="12" y2="15"/>
+            <line x1="12" y1="9" x2="18" y2="15"/>
+          </svg>
+        </button>
+        <button id="btn-multiply" class="btn btn-op btn-op-light" data-operation="*" data-key="*" aria-label="Multiply">x</button>
+
+        <!-- Row 2: 7 | 8 | 9 | ÷ -->
+        <button id="btn-7" class="btn btn-num" data-number="7" data-key="7">7</button>
+        <button id="btn-8" class="btn btn-num" data-number="8" data-key="8">8</button>
+        <button id="btn-9" class="btn btn-num" data-number="9" data-key="9">9</button>
+        <button id="btn-divide-alt" class="btn btn-op btn-op-light" data-operation="/" aria-label="Divide">÷</button>
+
+        <!-- Row 3: 4 | 5 | 6 | - -->
+        <button id="btn-4" class="btn btn-num" data-number="4" data-key="4">4</button>
+        <button id="btn-5" class="btn btn-num" data-number="5" data-key="5">5</button>
+        <button id="btn-6" class="btn btn-num" data-number="6" data-key="6">6</button>
+        <button id="btn-subtract" class="btn btn-op btn-op-light" data-operation="-" data-key="-" aria-label="Subtract">-</button>
+
+        <!-- Row 4: 1 | 2 | 3 | + -->
+        <button id="btn-1" class="btn btn-num" data-number="1" data-key="1">1</button>
+        <button id="btn-2" class="btn btn-num" data-number="2" data-key="2">2</button>
+        <button id="btn-3" class="btn btn-num" data-number="3" data-key="3">3</button>
+        <button id="btn-add" class="btn btn-op btn-op-light" data-operation="+" data-key="+" aria-label="Add">+</button>
+
+        <!-- Row 5: 0 (Wide span 2) | . | = (Lavender Accent) -->
+        <button id="btn-0" class="btn btn-num btn-zero" data-number="0" data-key="0">0</button>
+        <button id="btn-dot" class="btn btn-num" data-number="." data-key=".">·</button>
+        <button id="btn-equals" class="btn btn-equals" data-action="calculate" data-key="Enter" aria-label="Calculate">=</button>
+      </section>
+
+      <!-- History Flyout Drawer -->
+      <aside class="history-drawer" id="history-drawer" aria-hidden="true">
+        <div class="history-header">
+          <div class="history-title-group">
+            <button id="btn-close-history" class="glass-close-btn" aria-label="Close history" title="Close (Esc)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18"/>
+                <path d="m6 6 12 12"/>
+              </svg>
+            </button>
+            <h3>Calculations</h3>
+          </div>
+          <button id="btn-clear-history" class="glass-text-btn" aria-label="Clear history">Clear</button>
+        </div>
+        <div class="history-list" id="history-list">
+          <p class="history-empty">No calculations yet</p>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
